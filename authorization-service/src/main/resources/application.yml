@@ -1,0 +1,78 @@
+server:
+  port: 9081
+
+logging.level.org.springframework.security: DEBUG
+
+spring:
+#  mvc:
+#    view:
+#      prefix: /WEB-INF/html/
+#      suffix: .html
+  application:
+    index: ${HOST_INDEX:1}
+    name: authorization-service-v2-0
+  rabbitmq:
+    host: 172.16.10.199
+    port: 5672
+    username: guest
+    password: guest
+  datasource:
+    name: foodsee
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://172.16.10.196:3306/oauth2?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari:
+      connection-init-sql: set names utf8mb4;
+#      最大的连接数，包括使用中的和空闲的连接.（cpu核心数*2 + 硬盘数）
+      maximum-pool-size: 8
+#      最大生存时间，毫秒单位（比mysql的wait_timeout短1分钟左右）
+      max-lifetime: 60000
+#      最小的空闲连接数量
+      minimum-idle: 4
+  redis:
+    host: 172.16.10.199
+    port: 6379
+    password:
+    timeout: 0
+    pool:
+      maxActive: 8
+      maxWait: -1
+      maxIdle: 8
+      minIdle: 0
+#  jpa:
+#    hibernate:
+#      ddl-auto: none
+
+#logging:
+#  level:
+#    jdbc: error
+#    jdbc.sqltiming: info
+
+#security:
+#  oauth2:
+#    resource:
+#      filter-order: 3
+mybatis:
+  mapper-locations: classpath:mappers/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    call-setters-on-nulls: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+swagger:
+  enable: true
+  api-info:
+    title: oauth2授权服务器
+    description: oauth-center —— oauth2授权服务器APIs
+    version: 1.2
+  docket:
+    base-package: com.lhiot.auth.api
+    group-name: auth-center
+eureka:
+  instance:
+    prefer-ip-address: true
+    status-page-url-path: /swagger-ui.html
+  client:
+    service-url:
+      defaultZone: ${EUREKA_REPLICAS_LIST:http://172.16.10.196:1111/eureka}

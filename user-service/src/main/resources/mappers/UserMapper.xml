@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lhiot.user.mapper.UserMapper">
+
+    <insert id="insertPaymentLog" parameterType="com.lhiot.user.domain.User"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        insert into payment_log (
+                            user_id,
+                            order_id,
+                            order_code,
+                            app_type,
+                            source_type,
+                            pay_type,
+                            pay_step,
+                            pay_fee,
+                            trade_id,
+                            sign_at,
+                            pay_at,
+                            bank_type
+                        ) VALUES (#{userId},#{orderId},#{orderCode},#{appType},
+                        #{sourceType},#{payType},#{payStep},#{payFee},#{tradeId},#{signAt},#{payAt},#{bankType})
+    </insert>
+
+
+
+
+    <select id="getUser" parameterType="com.lhiot.user.domain.User"
+            resultType="com.lhiot.user.domain.User">
+        select * from t_user
+        where username=#{username} and password=#{password}
+    </select>
+
+    <select id="getUserByname" parameterType="com.lhiot.user.domain.User"
+            resultType="com.lhiot.user.domain.User">
+        select * from t_user
+        where username=#{username}
+    </select>
+
+    <select id="findByOpenId" parameterType="String"
+            resultType="com.lhiot.user.domain.User">
+        select * from t_user
+        where open_id=#{0}
+    </select>
+
+</mapper>
